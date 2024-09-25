@@ -17,8 +17,8 @@ class SignUpSerializer(serializers.ModelSerializer):
 		fields = ['email', 'username', 'password']
 
 	def validate(self, attrs):
-		check_username = User.objects.filter(username=attrs[username]).exists()
-		check_email = User.objects.filter(email=attrs[email]).exists()
+		check_username = User.objects.filter(username=attrs['username']).exists()
+		check_email = User.objects.filter(email=attrs['email']).exists()
 		if check_username:
 			raise ValidationError("username taken, pick another")
 		elif check_email:
