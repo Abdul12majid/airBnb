@@ -12,6 +12,12 @@ class Listing(models.Model):
     host = models.ForeignKey(User, on_delete=models.CASCADE)
     is_available = models.BooleanField(default=True)
 
+    def __init__(self):
+    	return self.title
+
+    class Meta:
+        verbose_name_plural = "Books"
+
 
 class Booking_status(models.Model):
 	name = models.CharField(max_length=100)
@@ -36,4 +42,4 @@ class Review(models.Model):
     comment = models.TextField()
 
     def __init__(self):
-		return (f'{self.guest.username} review')
+    	return (f'{self.guest.username} review')
