@@ -11,3 +11,19 @@ class Listing(models.Model):
     amenities = models.TextField()
     host = models.ForeignKey(User, on_delete=models.CASCADE)
     is_available = models.BooleanField(default=True)
+
+
+class Booking_status(models.Model):
+	name = models.CharField(max_length=100)
+
+	def __init__(self):
+		return self.name
+
+
+class Booking(models.Model):
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    guest = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bookings')
+    check_in_date = models.DateField()
+    check_out_date = models.DateField()
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.ForeignKey(Booking_status, on_delete=models.CASCADE)
