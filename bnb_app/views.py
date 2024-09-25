@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from .models import Listing
 from .serializers import PropSerializer
+from rest_framework.pagination import PageNumberPagination
 
 
 # Create your views here.
@@ -11,6 +12,7 @@ def index(request):
 
 class properties(ListCreateAPIView):
 	queryset = Listing.objects.all()
+	pagination_class = PageNumberPagination
 	serializer_class = PropSerializer
 
 
