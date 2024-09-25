@@ -9,20 +9,24 @@ class Listing(models.Model):
     location = models.CharField(max_length=255)
     price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
     amenities = models.TextField()
-    host = models.ForeignKey(User, on_delete=models.CASCADE)
+    host = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     is_available = models.BooleanField(default=True)
 
-    def __init__(self):
+    def __str__(self):
     	return self.title
 
     class Meta:
-        verbose_name_plural = "Books"
+    	verbose_name_plural = "Properties"
 
 
 class Booking_status(models.Model):
 	name = models.CharField(max_length=100)
 
-	def __init__(self):
+	class Meta:
+		verbose_name_plural = "Booking_status"
+
+
+	def __str__(self):
 		return self.name
 
 
@@ -41,5 +45,5 @@ class Review(models.Model):
     rating = models.IntegerField(choices=[(1, '1 star'), (2, '2 stars'), (3, '3 stars'), (4, '4 stars'), (5, '5 stars')])
     comment = models.TextField()
 
-    def __init__(self):
+    def __str__(self):
     	return (f'{self.guest.username} review')
