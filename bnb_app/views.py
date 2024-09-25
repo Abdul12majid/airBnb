@@ -12,3 +12,8 @@ def index(request):
 class properties(ListCreateAPIView):
 	queryset = Listing.objects.all()
 	serializer_class = PropSerializer
+
+
+class property_info(RetrieveUpdateDestroyAPIView):
+	queryset = Listing.objects.all()
+	serializer_class = PropSerializer
