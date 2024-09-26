@@ -25,7 +25,6 @@ class Booking_status(models.Model):
 	class Meta:
 		verbose_name_plural = "Booking_status"
 
-
 	def __str__(self):
 		return self.name
 
@@ -46,4 +45,4 @@ class Review(models.Model):
     comment = models.TextField()
 
     def __str__(self):
-    	return (f'{self.guest.username} review')
+    	return (f"{self.guest.username}'s review on {self.listing.title}.")

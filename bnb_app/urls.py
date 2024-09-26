@@ -6,4 +6,5 @@ urlpatterns = [
     path("", views.index),
     path("properties", views.properties.as_view()),
     path("property/<int:pk>", views.property_info.as_view()),
+    path("reviews", views.reviews.as_view()),
 ]

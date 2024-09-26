@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from .models import Listing
-from .serializers import PropSerializer, UrlSerializer
+from .models import Listing, Review
+from .serializers import PropSerializer, UrlSerializer, RevSerializer
 from rest_framework.pagination import PageNumberPagination
 from django.urls import resolve
 from rest_framework.decorators import api_view
@@ -31,4 +31,10 @@ class properties(ListCreateAPIView):
 
 class property_info(RetrieveUpdateDestroyAPIView):
 	queryset = Listing.objects.all()
+	serializer_class = PropSerializer
+
+
+class reviews(ListCreateAPIView):
+	queryset = Review.objects.all()
+	pagination_class = PageNumberPagination
 	serializer_class = PropSerializer

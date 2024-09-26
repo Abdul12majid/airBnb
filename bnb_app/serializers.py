@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Listing
+from .models import Listing, Review
 from django.contrib.auth.models import User
 
 class PropSerializer(serializers.ModelSerializer):
@@ -17,3 +17,9 @@ class PropSerializer(serializers.ModelSerializer):
 
 class UrlSerializer(serializers.Serializer):
     endpoints=serializers.CharField(max_length=500)
+
+
+class RevSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Review
+		fields = ('id', 'guest', 'Listing', 'rating', 'comment',)
