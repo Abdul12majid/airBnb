@@ -20,6 +20,17 @@ class UrlSerializer(serializers.Serializer):
 
 
 class RevSerializer(serializers.ModelSerializer):
+	guest = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+	listing = serializers.PrimaryKeyRelatedField(queryset=Listing.objects.all())
+	rating = serializers.PrimaryKeyRelatedField(queryset=Review.objects.all())
+
+	def to_representation(self, instance):
+		representation = super().to_representation(instance)
+		representation['guest'] = instance.guest.username  # Access the name attribute
+		representation['listing'] = instance.listing.title
+		representation['rating'] = f"{instance.rating} star(s)"
+		return representation
+
 	class Meta:
 		model = Review
-		fields = ('id', 'guest', 'Listing', 'rating', 'comment',)
+		fields = ('id', 'guest', 'listing', 'rating', 'comment',)

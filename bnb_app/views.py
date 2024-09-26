@@ -37,4 +37,4 @@ class property_info(RetrieveUpdateDestroyAPIView):
 class reviews(ListCreateAPIView):
 	queryset = Review.objects.all()
 	pagination_class = PageNumberPagination
-	serializer_class = PropSerializer
+	serializer_class = RevSerializer
