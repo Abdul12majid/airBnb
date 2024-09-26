@@ -13,3 +13,7 @@ class PropSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Listing
 		fields = ('id', 'title', 'description', 'location', 'is_available', 'amenities', 'host', )
+
+
+class UrlSerializer(serializers.Serializer):
+    endpoints=serializers.CharField(max_length=500)
