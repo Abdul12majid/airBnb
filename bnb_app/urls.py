@@ -8,6 +8,7 @@ urlpatterns = [
     path("property/<int:pk>", views.property_info.as_view()),
     path("reviews", views.reviews.as_view()),
     path("book", views.book.as_view()),
+    path("book_a/<int:pk>", views.book_a)
 
 
 ]

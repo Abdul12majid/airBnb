@@ -51,3 +51,18 @@ class BookSerializer(serializers.ModelSerializer):
 		model = Booking
 		fields = ('id', 'guest', 'listing', 'check_in_date', 'check_out_date', 'total_price', 'status',)
 
+
+class BookaSerializer(serializers.ModelSerializer):
+	#guest = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+	#listing = serializers.PrimaryKeyRelatedField(queryset=Listing.objects.all())
+	#status = serializers.PrimaryKeyRelatedField(queryset=Booking_status.objects.all())
+
+	def to_representation(self, instance):
+		representation = super().to_representation(instance)
+		representation['guest'] = instance.guest.username  # Access the name attribute
+		representation['listing'] = instance.listing.title
+		return representation
+
+	class Meta:
+		model = Booking
+		fields = ('id', 'check_in_date', 'check_out_date',)
