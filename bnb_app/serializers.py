@@ -36,7 +36,7 @@ class RevSerializer(serializers.ModelSerializer):
 		fields = ('id', 'guest', 'listing', 'rating', 'comment',)
 
 
-class BookSerializer(serializers.ModelSerializer):
+class BookingsSerializer(serializers.ModelSerializer):
 	guest = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
 	listing = serializers.PrimaryKeyRelatedField(queryset=Listing.objects.all())
 	status = serializers.PrimaryKeyRelatedField(queryset=Booking_status.objects.all())
@@ -52,7 +52,7 @@ class BookSerializer(serializers.ModelSerializer):
 		fields = ('id', 'guest', 'listing', 'check_in_date', 'check_out_date', 'total_price', 'status',)
 
 
-class BookaSerializer(serializers.ModelSerializer):
+class BookSerializer(serializers.ModelSerializer):
 	#guest = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
 	#listing = serializers.PrimaryKeyRelatedField(queryset=Listing.objects.all())
 	#status = serializers.PrimaryKeyRelatedField(queryset=Booking_status.objects.all())
