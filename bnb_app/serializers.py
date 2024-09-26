@@ -28,9 +28,10 @@ class RevSerializer(serializers.ModelSerializer):
 		representation = super().to_representation(instance)
 		representation['guest'] = instance.guest.username  # Access the name attribute
 		representation['listing'] = instance.listing.title
-		representation['rating'] = f"{instance.rating} star(s)"
+		representation['rating'] = f"{instance.rating}"
 		return representation
 
 	class Meta:
 		model = Review
 		fields = ('id', 'guest', 'listing', 'rating', 'comment',)
+

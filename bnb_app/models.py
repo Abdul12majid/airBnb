@@ -37,12 +37,31 @@ class Booking(models.Model):
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.ForeignKey(Booking_status, on_delete=models.CASCADE)
 
+class Rating(models.Model):
+    star = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.star
+
 
 class Review(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    rating = models.ForeignKey(Rating, on_delete=models.CASCADE)
     guest = models.ForeignKey(User, on_delete=models.CASCADE)
-    rating = models.IntegerField(choices=[(1, '1 star'), (2, '2 stars'), (3, '3 stars'), (4, '4 stars'), (5, '5 stars')])
     comment = models.TextField()
 
     def __str__(self):
-    	return (f"{self.guest.username}'s review on {self.listing.title}.")
+        return (f"{self.guest.username} review on {self.listing.title}")
+
+
+
+
+
+
+
+
+
+
+
+
+
