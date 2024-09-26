@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Listing, Review
+from .models import Listing, Review, Booking, Booking_status
 from django.contrib.auth.models import User
 
 class PropSerializer(serializers.ModelSerializer):
@@ -34,4 +34,20 @@ class RevSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Review
 		fields = ('id', 'guest', 'listing', 'rating', 'comment',)
+
+
+class BookSerializer(serializers.ModelSerializer):
+	guest = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+	listing = serializers.PrimaryKeyRelatedField(queryset=Listing.objects.all())
+	status = serializers.PrimaryKeyRelatedField(queryset=Booking_status.objects.all())
+
+	def to_representation(self, instance):
+		representation = super().to_representation(instance)
+		representation['guest'] = instance.guest.username  # Access the name attribute
+		representation['listing'] = instance.listing.title
+		return representation
+
+	class Meta:
+		model = Booking
+		fields = ('id', 'guest', 'listing', 'check_in_date', 'check_out_date', 'total_price', 'status',)
 
