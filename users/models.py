@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
+from bnb_app.models import Listing
 
 # Create your models here.
 class Profile(models.Model):
@@ -9,6 +10,7 @@ class Profile(models.Model):
     date_of_birth=models.DateTimeField(auto_now=True)
     profile_image = models.ImageField(upload_to='profile_images', null=True, blank=True)
     profile_bio=models.TextField(null=True, blank=True, max_length=500)
+    bookings_made = models.ManyToManyField(Listing, symmetrical=False, blank=True)
 
     def __str__(self):
         return self.user.username
