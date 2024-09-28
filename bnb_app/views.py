@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from .models import Listing, Review, Rating, Booking, Booking_status
-from .serializers import PropSerializer, UrlSerializer, RevSerializer, BookingsSerializer, BookSerializer
+from .serializers import PropSerializer, UrlSerializer, RevSerializer, BookingsSerializer, BookSerializer, ReviewSerializer
 from rest_framework.pagination import PageNumberPagination
 from django.urls import resolve
 from rest_framework.decorators import api_view
@@ -36,16 +36,15 @@ class property_info(RetrieveUpdateDestroyAPIView):
 
 
 @api_view(['POST', 'GET'])
-def reviews(request):
+def reviews(request, pk):
+	listing = Listing.objects.get(id=pk)
+	guest = request.user
 	all_reviews = Review.objects.all()
 	serializer_class = RevSerializer(all_reviews, many=True)
-	new_review = RevSerializer(data=request.data)
+	new_review = ReviewSerializer(data=request.data)
 	if new_review.is_valid():
-		prop_id = request.data['listing']
-		listing = Listing.objects.get(id=prop_id)
 		rate_id = request.data['rating']
 		rating = Rating.objects.get(id=rate_id)
-		guest = request.user
 		comment = request.data['comment']
 		user_review = Review.objects.create(
 			listing=listing,
@@ -55,11 +54,10 @@ def reviews(request):
 			)
 		user_review.save()
 
-		return Response({'Message':"Thanks for your feedback", 'info':new_review.data})
+		return Response({'Message':"Thanks for your feedback", 'info':serializer_class.data})
 	else:
-		return Response({'info':serializer_class.data})
-
-
+		return Response({'info':new_review.errors})
+	#return Response({serializer_class.data})
 
 
 class bookings(ListCreateAPIView):
