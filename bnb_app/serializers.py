@@ -69,10 +69,8 @@ class BookingsSerializer(serializers.ModelSerializer):
 
 
 class BookSerializer(serializers.ModelSerializer):
-	#guest = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-	#listing = serializers.PrimaryKeyRelatedField(queryset=Listing.objects.all())
-	#status = serializers.PrimaryKeyRelatedField(queryset=Booking_status.objects.all())
-
+	check_in_date = serializers.DateField(error_messages={'required': 'Input date in YYYY-MM-DD format'})
+	
 	def to_representation(self, instance):
 		representation = super().to_representation(instance)
 		representation['guest'] = instance.guest.username  # Access the name attribute
