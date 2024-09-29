@@ -70,11 +70,12 @@ class BookingsSerializer(serializers.ModelSerializer):
 
 class BookSerializer(serializers.ModelSerializer):
 	check_in_date = serializers.DateField(error_messages={'required': 'Input date in YYYY-MM-DD format'})
+	check_out_date = serializers.DateField(error_messages={'required': 'Input date in YYYY-MM-DD format'})
 	
 	def to_representation(self, instance):
 		representation = super().to_representation(instance)
-		representation['guest'] = instance.guest.username  # Access the name attribute
-		representation['listing'] = instance.listing.title
+		#representation['guest'] = instance.guest.username  # Access the name attribute
+		#representation['listing'] = instance.listing.title
 		return representation
 
 	class Meta:

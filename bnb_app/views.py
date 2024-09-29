@@ -79,7 +79,7 @@ def book(request, pk):
 		check_out_date = request.data['check_out_date']
 		strp_check_out_date = datetime.datetime.strptime(check_out_date, "%Y-%m-%d")
 		date_diff = strp_check_out_date - strp_check_in_date
-		total_price = date_diff*listing_price
+		total_price = date_diff.days*listing_price
 		create_booking = Booking.objects.create(
 				listing=listing,
 				guest=guest,
