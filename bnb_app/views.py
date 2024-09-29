@@ -7,6 +7,7 @@ from django.urls import resolve
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.db.models import QuerySet
+import datetime
 
 
 # Create your views here.
@@ -74,8 +75,10 @@ def book(request, pk):
 	status = Booking_status.objects.get(id=1)
 	if serializer.is_valid():
 		check_in_date = request.data['check_in_date']
+		strp_check_in_date = datetime.datetime.strptime(check_in_date, "%Y-%m-%d")
 		check_out_date = request.data['check_out_date']
-		date_diff = int(check_out_date - check_in_date)
+		strp_check_out_date = datetime.datetime.strptime(check_out_date, "%Y-%m-%d")
+		date_diff = strp_check_out_date - strp_check_in_date
 		total_price = date_diff*listing_price
 		create_booking = Booking.objects.create(
 				listing=listing,
@@ -90,9 +93,3 @@ def book(request, pk):
 	else:
 		return Response({'info':serializer.errors})
 	#return Response({'info': 'book suites', 'info2':'date in format yyyy-mm-dd'})
-
-
-
-#list and tuples and dictionaries manipulations
-
-
