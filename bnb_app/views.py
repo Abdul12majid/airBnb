@@ -73,6 +73,8 @@ def book(request, pk):
 	guest = request.user
 	listing_price = listing.price_per_night
 	status = Booking_status.objects.get(id=1)
+
+	#creating reservation
 	if serializer.is_valid():
 		check_in_date = request.data['check_in_date']
 		strp_check_in_date = datetime.datetime.strptime(check_in_date, "%Y-%m-%d")
@@ -88,6 +90,10 @@ def book(request, pk):
 				total_price=total_price,
 				status=status,
 				)
+		#add booking to user profile
+		user_reservation = guest.profile
+		user_reservation.bookings_made.add(listing)
+		user_reservation.save()
 
 		return Response({'info':serializer.data})
 	else:
