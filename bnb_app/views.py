@@ -97,8 +97,11 @@ def book(request, pk):
 
 		
 		last_booking = guest.profile.bookings_made.latest('id')
-		serializer_class = BookingsSerializer(last_booking)
-		property_class = PropSerializer()
+		booking_id = last_booking.id
+		reservation = Booking.objects.get(listing=last_booking)
+		get_booking = Listing.objects.get(id=booking_id)
+		serializer_class = BookingsSerializer(reservation)
+		property_class = PropSerializer(get_booking, many=False)
 		context = {
 			'info':serializer_class.data, 
 			"Property information": property_class.data
