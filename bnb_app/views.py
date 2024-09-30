@@ -90,16 +90,17 @@ def book(request, pk):
 				total_price=total_price,
 				status=status,
 				)
+
+		listing.is_available = False
+		listing.save()
+
 		#add booking to user profile
 		user_reservation = guest.profile
 		user_reservation.bookings_made.add(listing)
 		user_reservation.save()
 
-		
-		last_booking = guest.profile.bookings_made.latest('id')
-		booking_id = last_booking.id
-		reservation = Booking.objects.get(listing=last_booking)
-		get_booking = Listing.objects.get(id=booking_id)
+		reservation = Booking.objects.get(listing=listing)
+		get_booking = Listing.objects.get(id=pk)
 		serializer_class = BookingsSerializer(reservation)
 		property_class = PropSerializer(get_booking, many=False)
 		context = {
