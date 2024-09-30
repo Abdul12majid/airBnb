@@ -16,13 +16,13 @@ import datetime
 
 @api_view(['POST', 'GET'])
 def index(request):
-    url_patterns = resolve('bnb_app:home').url_patterns
-    endpoint_list = []
-    for pattern in url_patterns:
-        endpoint = pattern.pattern._regex
-        endpoint_list.append(endpoint)
-        serializer = UrlSerializer(endpoint_list, many=True)
-    return Response({'endpoints':serializer.data})
+	url_patterns = resolve('bnb_app:home').url_patterns
+	endpoint_list = []
+	for pattern in url_patterns:
+		endpoint = pattern.pattern._regex
+		endpoint_list.append(endpoint)
+		serializer = UrlSerializer(endpoint_list, many=True)
+	return Response({'endpoints':serializer.data})
 
 
 class properties(ListCreateAPIView):
@@ -95,7 +95,15 @@ def book(request, pk):
 		user_reservation.bookings_made.add(listing)
 		user_reservation.save()
 
-		return Response({'info':serializer.data})
+		
+		last_booking = guest.profile.bookings_made.latest('id')
+		serializer_class = BookingsSerializer(last_booking)
+		property_class = PropSerializer()
+		context = {
+			'info':serializer_class.data, 
+			"Property information": property_class.data
+			}
+		return Response(context)
 	else:
 		return Response({'info':serializer.errors})
 	#return Response({'info': 'book suites', 'info2':'date in format yyyy-mm-dd'})
