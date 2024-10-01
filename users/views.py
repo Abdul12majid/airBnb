@@ -38,11 +38,16 @@ def register(request):
 	return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST', 'GET'])
+@api_view(['GET'])
 def property_booked(request):
 	user = request.user
 	if user.profile.bookings_made.all().count() != 0:
 		all_bookings = user.profile.bookings_made.all()
 		property_class = PropSerializer(all_bookings, many=True)
 		return Response({"info":property_class.data})
+	return Response({"info":"no property booked."})
+
+
+@api_view(['POST', 'GET'])
+def booking_info(request):
 	return Response({"info":"no property booked."})
