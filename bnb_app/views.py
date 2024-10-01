@@ -84,7 +84,7 @@ def book(request, pk):
 		total_price = date_diff.days*listing_price
 
 		if listing in guest.profile.bookings_made.all():
-			return Response({'info':"unable to book locaton twice, check your bookngs."})
+			return Response({'info':"unable to book locaton twice, check your bookings"})
 
 		#add booking to user profile
 		user_reservation = guest.profile

@@ -41,7 +41,7 @@ def register(request):
 @api_view(['GET'])
 def property_booked(request):
 	user = request.user
-	if user.profile.bookings_made.all().count() != 0:
+	if user.bookings.bookings_made.all().count() != 0:
 		all_bookings = user.profile.bookings_made.all()
 		property_class = PropSerializer(all_bookings, many=True)
 		return Response({"info":property_class.data})
@@ -50,4 +50,6 @@ def property_booked(request):
 
 @api_view(['POST', 'GET'])
 def booking_info(request):
+	user = request.user
+
 	return Response({"info":"no property booked."})

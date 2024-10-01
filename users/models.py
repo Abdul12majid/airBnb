@@ -10,6 +10,8 @@ class Profile(models.Model):
     date_of_birth=models.DateTimeField(auto_now=True)
     profile_image = models.ImageField(upload_to='profile_images', null=True, blank=True)
     profile_bio=models.TextField(null=True, blank=True, max_length=500)
+    bookings_made = models.ManyToManyField(Listing, symmetrical=False, blank=True)
+    book_count = models.IntegerField(default=0)
 
     def __str__(self):
         return self.user.username
@@ -20,11 +22,3 @@ def create_profile(sender, instance, created, **kwargs):
         user_profile.save()
 post_save.connect(create_profile, sender=User)
 
-
-class Bookings(models.Model):
-    owner = models.OneToOneField(Profile, on_delete=models.CASCADE)
-    bookings_made = models.ManyToManyField(Listing, symmetrical=False, blank=True)
-    book_count = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.owner.user.username
