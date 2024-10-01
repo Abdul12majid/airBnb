@@ -5,7 +5,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import LoginSerializer, SignUpSerializer
 from django.contrib.auth.models import User
-from bnb_app.serializers import PropSerializer
+from bnb_app.serializers import PropSerializer, BookingsSerializer
+from bnb_app.models import Booking
 
 # Create your views here.
 
@@ -41,7 +42,7 @@ def register(request):
 @api_view(['GET'])
 def property_booked(request):
 	user = request.user
-	if user.bookings.bookings_made.all().count() != 0:
+	if user.profile.bookings_made.all().count() != 0:
 		all_bookings = user.profile.bookings_made.all()
 		property_class = PropSerializer(all_bookings, many=True)
 		return Response({"info":property_class.data})
@@ -51,5 +52,8 @@ def property_booked(request):
 @api_view(['POST', 'GET'])
 def booking_info(request):
 	user = request.user
-
-	return Response({"info":"no property booked."})
+	if Booking.objects.filter(guest=user).all().count() != 0:
+		user_booking = Booking.objects.filter(guest=user).all()
+		serializer_class = BookingsSerializer(user_booking, many=True)
+		return Response({"info":serializer_class.data})
+	return Response({"info":"All bookings cleared."})
