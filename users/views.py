@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import LoginSerializer, SignUpSerializer
 from django.contrib.auth.models import User
+from bnb_app.serializers import PropSerializer
 
 # Create your views here.
 
@@ -35,3 +36,13 @@ def register(request):
 		}
 		return Response(data=response, status=status.HTTP_201_CREATED)
 	return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST', 'GET'])
+def property_booked(request):
+	user = request.user
+	if user.profile.bookings_made.all().count() != 0:
+		all_bookings = user.profile.bookings_made.all()
+		property_class = PropSerializer(all_bookings, many=True)
+		return Response({"info":property_class.data})
+	return Response({"info":"no property booked."})
