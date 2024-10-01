@@ -83,8 +83,18 @@ def book(request, pk):
 		date_diff = strp_check_out_date - strp_check_in_date
 		total_price = date_diff.days*listing_price
 
+		#condition 1
 		if listing in guest.profile.bookings_made.all():
 			return Response({'info':"unable to book locaton twice, check your bookings"})
+
+		#condition 2
+		if listing.is_available == False:
+			return Response({'info':"Property currently booked."})
+
+		#condition 3
+		if guest.profile.bookings_made.all().count == 2:
+			return Response({'info':"Booking count reached, kindly unbook."})
+
 
 		#add booking to user profile
 		user_reservation = guest.profile
