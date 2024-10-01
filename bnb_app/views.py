@@ -82,6 +82,17 @@ def book(request, pk):
 		strp_check_out_date = datetime.datetime.strptime(check_out_date, "%Y-%m-%d")
 		date_diff = strp_check_out_date - strp_check_in_date
 		total_price = date_diff.days*listing_price
+
+		if listing in guest.profile.bookings_made.all():
+			return Response({'info':"unable to book locaton twice, check your bookngs."})
+
+		#add booking to user profile
+		user_reservation = guest.profile
+		user_reservation.bookings_made.add(listing)
+		user_reservation.book_count += 1
+		user_reservation.save()
+
+		#create booking
 		create_booking = Booking.objects.create(
 				listing=listing,
 				guest=guest,
@@ -93,11 +104,6 @@ def book(request, pk):
 
 		listing.is_available = False
 		listing.save()
-
-		#add booking to user profile
-		user_reservation = guest.profile
-		user_reservation.bookings_made.add(listing)
-		user_reservation.save()
 
 		reservation = Booking.objects.get(listing=listing)
 		get_booking = Listing.objects.get(id=pk)

@@ -3,9 +3,13 @@ from .models import Listing, Booking_status, Booking, Review, Rating
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
+#@admin.register(Listing)
+#class book_data(ImportExportModelAdmin):
+#	pass
+
 @admin.register(Listing)
-class book_data(ImportExportModelAdmin):
-	pass
+class ListingAdmin(admin.ModelAdmin):
+    search_fields = ['title', 'description', 'location']
 
 
 admin.site.register(Booking_status)
