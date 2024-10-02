@@ -127,3 +127,14 @@ def book(request, pk):
 	else:
 		return Response({'info':serializer.errors})
 	#return Response({'info': 'book suites', 'info2':'date in format yyyy-mm-dd'})
+
+
+@api_view(['GET'])
+def booked_property(request):
+	if Listing.objects.filter(is_available=False).all().count() != 0:
+		listing = Listing.objects.filter(is_available=False).all()
+		property_class = PropSerializer(listing, many=True)
+		return Response({'Booked Properties':property_class.data})
+	return Response({'info':'All Properties are available for booking.'})
+
+

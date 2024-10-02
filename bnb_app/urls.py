@@ -8,7 +8,8 @@ urlpatterns = [
     path("property/<int:pk>", views.property_info.as_view()),
     path("reviews/<int:pk>", views.reviews),
     path("bookings", views.bookings.as_view()),
-    path("book/<int:pk>", views.book)
+    path("book/<int:pk>", views.book),
+    path("booked_property", views.booked_property)
 
 
 ]
