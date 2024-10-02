@@ -69,9 +69,10 @@ def unbook(request, pk):
 	serializer = PropSerializer(get_prop, many=False)
 
 	#remove from profile
-	remove_prop = user.profile.bookings_made.remove(get_prop)
-	remove_prop.book_count -= 1
-	remove_prop.save()
+	user_profile = user.profile
+	user_profile.bookings_made.remove(get_prop)
+	user_profile.book_count -= 1
+	user_profile.save()
 
 	#remove from booking model
 	booking_prop = Booking.objects.get(listing=get_prop)
