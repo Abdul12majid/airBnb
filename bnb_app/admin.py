@@ -10,6 +10,7 @@ from import_export.admin import ImportExportModelAdmin
 @admin.register(Listing)
 class ListingAdmin(admin.ModelAdmin):
     search_fields = ['title', 'description', 'location']
+    list_filter = ['is_available']
 
 
 admin.site.register(Booking_status)

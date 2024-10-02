@@ -6,5 +6,6 @@ urlpatterns = [
     path("register", views.register),
     path("property_booked", views.property_booked),
     path("my_bookings", views.my_bookings),
+    path("unbook/<int:pk>", views.unbook),
 
 ]

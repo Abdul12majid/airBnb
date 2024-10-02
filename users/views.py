@@ -6,7 +6,7 @@ from rest_framework import status
 from .serializers import LoginSerializer, SignUpSerializer
 from django.contrib.auth.models import User
 from bnb_app.serializers import PropSerializer, BookingsSerializer
-from bnb_app.models import Booking
+from bnb_app.models import Booking, Listing
 
 # Create your views here.
 
@@ -57,3 +57,28 @@ def my_bookings(request):
 		serializer_class = BookingsSerializer(user_booking, many=True)
 		return Response({"info":serializer_class.data})
 	return Response({"info":"All bookings cleared."})
+
+
+
+@api_view(['GET'])
+def unbook(request, pk):
+	user = request.user
+
+	#get property
+	get_prop = Listing.objects.get(id=pk)
+	serializer = PropSerializer(get_prop, many=False)
+
+	#remove from profile
+	remove_prop = user.profile.bookings_made.remove(get_prop)
+	remove_prop.book_count -= 1
+	remove_prop.save()
+
+	#remove from booking model
+	booking_prop = Booking.objects.get(listing=get_prop)
+	booking_prop.delete()
+	print('Successfully deleted')
+
+	#turn prop availability
+	get_prop.is_available = True
+	get_prop.save()
+	return Response({"Unbooked":serializer.data})
