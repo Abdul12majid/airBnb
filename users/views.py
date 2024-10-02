@@ -49,7 +49,7 @@ def property_booked(request):
 	return Response({"info":"No property booked."})
 
 
-@api_view(['POST', 'GET'])
+@api_view(['GET'])
 def my_bookings(request):
 	user = request.user
 	if Booking.objects.filter(guest=user).all().count() != 0:
@@ -70,16 +70,19 @@ def unbook(request, pk):
 
 	#remove from profile
 	user_profile = user.profile
-	user_profile.bookings_made.remove(get_prop)
-	user_profile.book_count -= 1
-	user_profile.save()
+	if get_prop in user_profile.bookings_made.all():
+		user_profile.bookings_made.remove(get_prop)
+		user_profile.book_count -= 1
+		user_profile.save()
 
-	#remove from booking model
-	booking_prop = Booking.objects.get(listing=get_prop)
-	booking_prop.delete()
-	print('Successfully deleted')
+		#remove from booking model
+		booking_prop = Booking.objects.get(listing=get_prop)
+		booking_prop.delete()
+		print('Successfully deleted')
 
-	#turn prop availability
-	get_prop.is_available = True
-	get_prop.save()
-	return Response({"Unbooked":serializer.data})
+		#turn prop availability
+		get_prop.is_available = True
+		get_prop.save()
+		return Response({"Unbooked":serializer.data})
+
+	return Response({"Unbooked":"Booking not made yet."})
