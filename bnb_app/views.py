@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from .models import Listing, Review, Rating, Booking, Booking_status
+from .models import Listing, Review, Rating, Booking, Booking_status, UserBooking
 from .serializers import PropSerializer, UrlSerializer, RevSerializer, BookingsSerializer, BookSerializer, ReviewSerializer
 from rest_framework.pagination import PageNumberPagination
 from django.urls import resolve
@@ -104,6 +104,16 @@ def book(request, pk):
 
 		#create booking
 		create_booking = Booking.objects.create(
+				listing=listing,
+				guest=guest,
+				check_in_date=check_in_date,
+				check_out_date=check_out_date,
+				total_price=total_price,
+				status=status,
+				)
+
+		#user_booking
+		create_user_booking = UserBooking.objects.create(
 				listing=listing,
 				guest=guest,
 				check_in_date=check_in_date,
