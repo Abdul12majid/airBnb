@@ -46,7 +46,7 @@ def property_booked(request):
 		all_bookings = user.profile.bookings_made.all()
 		property_class = PropSerializer(all_bookings, many=True)
 		return Response({"info":property_class.data})
-	return Response({"info":"No property booked."})
+	return Response({"info":"No property booked."}) 
 
 
 @api_view(['GET'])
@@ -86,3 +86,13 @@ def unbook(request, pk):
 		return Response({"Unbooked":serializer.data})
 
 	return Response({"Unbooked":"Booking not made yet."})
+
+
+@api_view(['GET'])
+def my_booking_history(request):
+	user = request.user
+	if Booking.objects.filter(guest=user).all().count() != 0:
+		user_bookings = Booking.objects.filter(guest=user).all()
+		serializer_class = BookingsSerializer(user_booking, many=True)
+		return Response({"info":serializer_class.data})
+	return Response({"info":"You have no history."})

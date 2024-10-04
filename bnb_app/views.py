@@ -152,6 +152,6 @@ def booked_property(request):
 @api_view(['GET'])
 def booking_history(request):
 	get_booking = Booking.objects.all()
-	serializer = BookSerializer(get_booking, many=True)
+	serializer = BookingsSerializer(get_booking, many=True)
 	return Response({'info':serializer.data})
 
