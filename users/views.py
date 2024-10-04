@@ -7,6 +7,7 @@ from .serializers import LoginSerializer, SignUpSerializer
 from django.contrib.auth.models import User
 from bnb_app.serializers import PropSerializer, BookingsSerializer
 from bnb_app.models import Booking, Listing
+from .models import UserBooking
 
 # Create your views here.
 
@@ -52,8 +53,8 @@ def property_booked(request):
 @api_view(['GET'])
 def my_bookings(request):
 	user = request.user
-	if Booking.objects.filter(guest=user).all().count() != 0:
-		user_booking = Booking.objects.filter(guest=user).all()
+	if UserBooking.objects.filter(guest=user).all().count() != 0:
+		user_booking = UserBooking.objects.filter(guest=user).all()
 		serializer_class = BookingsSerializer(user_booking, many=True)
 		return Response({"info":serializer_class.data})
 	return Response({"info":"All bookings cleared."})
@@ -76,7 +77,7 @@ def unbook(request, pk):
 		user_profile.save()
 
 		#remove from booking model
-		booking_prop = Booking.objects.get(listing=get_prop)
+		booking_prop = UserBooking.objects.get(listing=get_prop)
 		booking_prop.delete()
 		print('Successfully deleted')
 
@@ -93,6 +94,6 @@ def my_booking_history(request):
 	user = request.user
 	if Booking.objects.filter(guest=user).all().count() != 0:
 		user_bookings = Booking.objects.filter(guest=user).all()
-		serializer_class = BookingsSerializer(user_booking, many=True)
+		serializer_class = BookingsSerializer(user_bookings, many=True)
 		return Response({"info":serializer_class.data})
 	return Response({"info":"You have no history."})
