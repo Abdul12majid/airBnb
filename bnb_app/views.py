@@ -93,8 +93,8 @@ def book(request, pk):
 			return Response({'info':"Property currently booked."})
 
 		#condition 3
-		if guest.profile.bookings_made.all().count == 2:
-			return Response({'info':"Booking count reached, kindly unbook."})
+		if guest.profile.bookings_made.all().count() == 2:
+			return Response({'info':"Booking limit reached, kindly unbook."})
 
 
 		#add booking to user profile
@@ -126,12 +126,12 @@ def book(request, pk):
 		listing.is_available = False
 		listing.save()
 
-		reservation = Booking.objects.get(listing=listing)
+		reservation = UserBooking.objects.get(listing=listing)
 		get_booking = Listing.objects.get(id=pk)
 		serializer_class = BookingsSerializer(reservation)
 		property_class = PropSerializer(get_booking, many=False)
 		context = {
-			'info':serializer_class.data, 
+			'Booking info':serializer_class.data, 
 			"Property information": property_class.data
 			}
 		return Response(context)
