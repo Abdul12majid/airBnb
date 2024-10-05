@@ -97,3 +97,4 @@ def my_booking_history(request):
 		serializer_class = BookingsSerializer(user_bookings, many=True)
 		return Response({"info":serializer_class.data})
 	return Response({"info":"You have no history."})
+

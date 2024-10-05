@@ -155,3 +155,18 @@ def booking_history(request):
 	serializer = BookingsSerializer(get_booking, many=True)
 	return Response({'info':serializer.data})
 
+
+
+@api_view(['GET'])
+def search(request, pk):
+	get_prop = Listing.objects.filter(title__contains=pk).exists()
+	if get_book:
+		print("Found")
+		search_result = Listing.objects.filter(title__contains=pk).all()
+		serializer_class = PropSerializer(search_result, many=True)
+		return Response({'Info':serializer_class.data})
+	else:
+		print("property not found")
+		return Response({'Info':'not found'})
+	return Response({'Info':'Search property'})
+
