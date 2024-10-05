@@ -160,7 +160,7 @@ def booking_history(request):
 @api_view(['GET'])
 def search(request, pk):
 	get_prop = Listing.objects.filter(title__contains=pk).exists()
-	if get_book:
+	if get_prop:
 		print("Found")
 		search_result = Listing.objects.filter(title__contains=pk).all()
 		serializer_class = PropSerializer(search_result, many=True)
