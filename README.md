@@ -26,7 +26,7 @@ It allows users to list and search for properties, manage bookings, and provides
 
 **Usage**
 
-1. Start the development server: python mnage.py runserver
+1. Start the development server: python manage.py runserver
 2. Access the API documentation at - http://127.0.0.1:8000/api/docs/
 
 **Features** 
