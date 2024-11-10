@@ -41,6 +41,6 @@ It allows users to list and search for properties, manage bookings, and provides
 8. Search by title of property.
 
 **Contact Me**
-
+Reach out to me for the secret key.
 For any questions or feedback, feel free to reach out to Majid at yisaabdulmajid@gmail.com or open an issue on the GitHub repository.
    
